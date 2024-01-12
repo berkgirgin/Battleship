@@ -1,0 +1,65 @@
+body {
+  background-color: lightblue;
+}
+
+.main_container > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+/* Header */
+
+.header_container {
+}
+
+/* Gameboard Container */
+.gameboards_container {
+  display: flex;
+  gap: 2rem;
+}
+
+.gameboards_container > * {
+  box-sizing: border-box;
+  background-color: white;
+  border: 24px groove gold;
+  width: 30rem;
+  height: 30rem;
+  /* padding: 2px; */
+
+  display: grid;
+  grid-template-columns: repeat(10, minmax(10px, 1fr));
+  grid-auto-rows: 1fr;
+}
+.gameboards_container > *.has_won {
+  border-color: green;
+  border-radius: 30px;
+}
+.gameboards_container > *.has_lost {
+  border-color: red;
+  border-radius: 30px;
+}
+
+/* Gameboard Tiles */
+.tile {
+  aspect-ratio: 1 / 1;
+  border: 2px silver solid;
+}
+
+.tile.hit {
+  background-color: red;
+}
+.tile.hit:hover {
+  background-color: gray;
+}
+
+.tile.has_ship {
+  border-inline: 4px orange solid;
+}
+
+.tile.has_sunk_ship {
+}
+
+.tile:hover {
+  background-color: bisque;
+}
