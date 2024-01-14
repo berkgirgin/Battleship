@@ -113,6 +113,9 @@ class GameController {
   }
 
   playRound(X_coor, Y_coor, player) {
+    if (player === this.computerPlayer) {
+      console.log([X_coor, Y_coor]);
+    }
     // console.log(`isHumanTurn: ${player === this.humanPlayer}`);
     // console.log(`played tile: [${X_coor}, ${Y_coor}]`);
 
@@ -124,9 +127,9 @@ class GameController {
     // We click on inactive player board on DOM to playRound
 
     // ?? where to check if attack is allowed
-    if (!player.isAttackAllowed(X_coor, Y_coor)) {
-      return;
-    }
+    // if (!player.isAttackAllowed(X_coor, Y_coor)) {
+    //   return;
+    // }
     //
     player.attackEnemyPlayer(X_coor, Y_coor);
 
@@ -197,6 +200,20 @@ GameController.prototype.initialiseTestGame = function () {
 
   this.testPlaceSomeShips(this.humanPlayer);
   this.testPlaceSomeShips(this.computerPlayer);
+
+  this.activePlayer = this.humanPlayer;
+  this.inactivePlayer = this.computerPlayer;
+};
+
+GameController.prototype.initialiseTestGameNoShips = function () {
+  this.humanPlayer = new Player();
+  this.computerPlayer = new Player();
+
+  this.humanPlayer.setEnemyPlayer(this.computerPlayer);
+  this.computerPlayer.setEnemyPlayer(this.humanPlayer);
+
+  // this.testPlaceSomeShips(this.humanPlayer);
+  // this.testPlaceSomeShips(this.computerPlayer);
 
   this.activePlayer = this.humanPlayer;
   this.inactivePlayer = this.computerPlayer;

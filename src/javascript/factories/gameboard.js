@@ -135,6 +135,40 @@ class Gameboard {
     return isAllShipsSunk;
   }
 
+  getShipsHitTileCoordinates(ship) {
+    // returns [X_start, X_end, Y_start, Y_end]
+    let all_X_coor = [];
+    let all_Y_coor = [];
+
+    function findMinMax(numbersArr) {
+      if (!Array.isArray(numbersArr) || numbersArr.length === 0) {
+        return null; // Handle invalid input
+      }
+
+      const sortedNumbers = [...numbersArr].sort((a, b) => a - b);
+      const smallest = sortedNumbers[0];
+      const largest = sortedNumbers[sortedNumbers.length - 1];
+
+      return [smallest, largest];
+    }
+
+    for (let i = 0; i < this.boardSize; i++) {
+      for (let j = 0; j < this.boardSize; j++) {
+        let currentTile = this.fullBoard[i][j];
+        if (currentTile.shipInfo == ship && currentTile.isTileHit) {
+          // allTilesOfShip.push(this.fullBoard[i][j]);
+          all_X_coor.push(i);
+          all_Y_coor.push(j);
+        }
+      }
+    }
+    let [X_start, X_end] = findMinMax(all_X_coor);
+    let [Y_start, Y_end] = findMinMax(all_Y_coor);
+
+    return [X_start, X_end, Y_start, Y_end];
+    //
+  }
+
   // TO DO: This will help show the sunk ships on DOM gameboard
   getSunkShipTiles(ship) {
     if (!ship.isSunk()) {

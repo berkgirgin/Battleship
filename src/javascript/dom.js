@@ -1,7 +1,7 @@
 export { DOM_Generator };
 //
 // ****
-// import { game } from "../javascript/index.js";
+import { game } from "../javascript/index.js";
 // TO DO: above line causes an error on Jest, but not on the app
 
 class DOM_Generator {
@@ -57,10 +57,10 @@ class DOM_Generator {
   // }
 
   clickOnGameboardTile(event, humanOrComputer) {
-    console.log(event.target);
+    // console.log(event.target);
     let tile_xCoor = event.target.dataset.x_coor;
     let tile_yCoor = event.target.dataset.y_coor;
-    console.log(tile_xCoor, tile_yCoor);
+    // console.log(tile_xCoor, tile_yCoor);
 
     if (humanOrComputer === "computer") {
       game.playRound(tile_xCoor, tile_yCoor, game.humanPlayer);
@@ -83,6 +83,16 @@ class DOM_Generator {
       ".computer_gameboard_container"
     );
 
+    let isHumanTurn = game.activePlayer === game.humanPlayer;
+
+    if (isHumanTurn) {
+      computerBoardDiv.classList.add("activeplayer");
+    } else {
+      computerBoardDiv.classList.remove("activeplayer");
+    }
+
+    //
+
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         const selector = `.tile[data-x_coor="${i}"][data-y_coor="${j}"]`;
@@ -99,12 +109,14 @@ class DOM_Generator {
         }
         //
 
+        // making hit tiles visible
         if (game.humanPlayer.playerboard.fullBoard[i][j].isTileHit) {
           currentHumanTile_DOM.classList.add("hit");
         }
         if (game.computerPlayer.playerboard.fullBoard[i][j].isTileHit) {
           currentComputerTile_DOM.classList.add("hit");
         }
+        //
       }
     }
 

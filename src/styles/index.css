@@ -40,6 +40,15 @@ body {
   border-radius: 30px;
 }
 
+/* pointer events allowed only on computer board during human turn */
+.human_gameboard_container,
+.computer_gameboard_container {
+  pointer-events: none;
+}
+.computer_gameboard_container.activeplayer {
+  pointer-events: all;
+}
+
 /* Gameboard Tiles */
 .tile {
   aspect-ratio: 1 / 1;
@@ -48,13 +57,17 @@ body {
 
 .tile.hit {
   background-color: red;
+  pointer-events: none;
 }
 .tile.hit:hover {
   background-color: gray;
 }
 
 .tile.has_ship {
-  border-inline: 4px orange solid;
+  /* border-inline: 8px purple solid; */
+  border-style: double;
+  border-color: purple;
+  border-width: 10px;
 }
 
 .tile.has_sunk_ship {

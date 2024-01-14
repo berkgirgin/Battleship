@@ -4,7 +4,13 @@ import { Player } from "../src/javascript/factories/player.js";
 import { GameController } from "../src/javascript/factories/gamecontroller.js";
 import { getAIMove, getRandomNonHitTile } from "../src/javascript/AI.js";
 
-describe("AI Moves", () => {
+function includesArray(parentArray, testArray) {
+  return parentArray.some((move) =>
+    move.every((val, index) => val === testArray[index])
+  );
+}
+
+describe.only("AI Moves", () => {
   test("getRandomNonHitTile works", () => {
     //getRandomNonHitTile should return [x,y]
     const game = new GameController();
@@ -38,7 +44,7 @@ describe("AI Moves", () => {
     }).toThrow("no non-hit tile left");
   });
 
-  test.skip("getAIMove hits neighbors after successful hit", () => {
+  test("getAIMove hits neighbors after successful hit", () => {
     const game = new GameController();
     game.initialiseTestGame_AI_Test();
     let possibleNextMoves;
@@ -51,8 +57,12 @@ describe("AI Moves", () => {
       [2, 3],
       [2, 1],
     ];
+
     expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
+      includesArray(
+        possibleNextMoves,
+        getAIMove(game.computerPlayer.playerboard)
+      )
     ).toBe(true);
 
     game.playRound(1, 2, game.humanPlayer);
@@ -62,7 +72,10 @@ describe("AI Moves", () => {
       [2, 1],
     ];
     expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
+      includesArray(
+        possibleNextMoves,
+        getAIMove(game.computerPlayer.playerboard)
+      )
     ).toBe(true);
 
     game.playRound(2, 3, game.humanPlayer);
@@ -71,29 +84,38 @@ describe("AI Moves", () => {
       [2, 1],
     ];
     expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
+      includesArray(
+        possibleNextMoves,
+        getAIMove(game.computerPlayer.playerboard)
+      )
     ).toBe(true);
 
     game.playRound(2, 1, game.humanPlayer);
     possibleNextMoves = [[3, 2]];
     expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
+      includesArray(
+        possibleNextMoves,
+        getAIMove(game.computerPlayer.playerboard)
+      )
     ).toBe(true);
 
     game.playRound(3, 2, game.humanPlayer);
     possibleNextMoves = []; // should get a random tile then
-    initialNextMoves = [
+    let initialNextMoves = [
       [1, 2],
       [3, 2],
       [2, 3],
       [2, 1],
     ];
     expect(
-      initialNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
+      includesArray(
+        initialNextMoves,
+        getAIMove(game.computerPlayer.playerboard)
+      )
     ).toBe(false);
   });
 
-  test.skip("getAIMove hits same line(x or y direction) after 2 successful hits", () => {
+  test("getAIMove hits same line(x or y direction) after 2 successful hits", () => {
     const game = new GameController();
     game.initialiseTestGame_AI_Test();
     let possibleNextMoves;
@@ -107,7 +129,10 @@ describe("AI Moves", () => {
       [2, 1],
     ];
     expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
+      includesArray(
+        possibleNextMoves,
+        getAIMove(game.computerPlayer.playerboard)
+      )
     ).toBe(true);
 
     expect(game.activePlayer).toBe(game.humanPlayer);
@@ -117,7 +142,10 @@ describe("AI Moves", () => {
       [4, 2],
     ];
     expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
+      includesArray(
+        possibleNextMoves,
+        getAIMove(game.computerPlayer.playerboard)
+      )
     ).toBe(true);
 
     expect(game.activePlayer).toBe(game.humanPlayer);
@@ -127,88 +155,23 @@ describe("AI Moves", () => {
       [4, 2],
     ];
     expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
+      includesArray(
+        possibleNextMoves,
+        getAIMove(game.computerPlayer.playerboard)
+      )
     ).toBe(true);
 
     //
   });
 
-  test.skip("getAIMove keeps track when ships are next to each other", () => {
-    // solution: when a ship is sunk, check all map to see if there
-    // is a hit tile already
-    // ALSO check both ifTileHit and if Ships are same
+  test("getAIMove ignores options out of board", () => {
     const game = new GameController();
-    game.initialiseGame();
-
-    const testShip1 = new Ship(3);
-    const testShip2 = new Ship(3);
-    player.playerboard.placeShip(testShip1, 2, 4, 1, 1);
-    player.playerboard.placeShip(testShip2, 2, 4, 2, 2);
-
-    let possibleNextMoves;
-
-    expect(game.activePlayer).toBe(game.humanPlayer);
-    game.playRound(2, 2, game.humanPlayer);
-    possibleNextMoves = [
-      [1, 2],
-      [3, 2],
-      [2, 3],
-      [2, 1],
-    ];
-    expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
-    ).toBe(true);
-
-    expect(game.activePlayer).toBe(game.humanPlayer);
-    game.playRound(2, 1, game.humanPlayer); // here tile is hit but different ship
-    possibleNextMoves = [
-      [1, 2],
-      [3, 2],
-      [2, 3],
-    ];
-    expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
-    ).toBe(true);
-
-    expect(game.activePlayer).toBe(game.humanPlayer);
-    game.playRound(1, 2, game.humanPlayer);
-    possibleNextMoves = [
-      [3, 2],
-      [2, 3],
-    ];
-    expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
-    ).toBe(true);
-
-    expect(game.activePlayer).toBe(game.humanPlayer);
-    game.playRound(3, 2, game.humanPlayer);
-    possibleNextMoves = [[4, 2]];
-    expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
-    ).toBe(true);
-
-    expect(game.activePlayer).toBe(game.humanPlayer);
-    game.playRound(4, 2, game.humanPlayer); // ship is sunk, [2,1] was hit but different ship
-    possibleNextMoves = [
-      [1, 1],
-      [3, 1],
-      [2, 0],
-    ];
-    expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
-    ).toBe(true);
-
-    //
-  });
-
-  test.skip("getAIMove ignores options out of board", () => {
-    const game = new GameController();
-    game.initialiseGame();
+    game.initialiseTestGameNoShips();
 
     const testShip1 = new Ship(3);
     const testShip2 = new Ship(4);
-    player.playerboard.placeShip(testShip1, 0, 2, 0, 0);
-    player.playerboard.placeShip(testShip2, 9, 9, 2, 5);
+    game.computerPlayer.playerboard.placeShip(testShip1, 0, 2, 0, 0);
+    game.computerPlayer.playerboard.placeShip(testShip2, 9, 9, 2, 5);
 
     let possibleNextMoves;
 
@@ -219,14 +182,20 @@ describe("AI Moves", () => {
       [0, 1],
     ];
     expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
+      includesArray(
+        possibleNextMoves,
+        getAIMove(game.computerPlayer.playerboard)
+      )
     ).toBe(true);
 
     expect(game.activePlayer).toBe(game.humanPlayer);
     game.playRound(1, 0, game.humanPlayer);
     possibleNextMoves = [[2, 0]];
     expect(
-      possibleNextMoves.includes(getAIMove(game.computerPlayer.playerboard))
+      includesArray(
+        possibleNextMoves,
+        getAIMove(game.computerPlayer.playerboard)
+      )
     ).toBe(true);
 
     expect(game.activePlayer).toBe(game.humanPlayer);
