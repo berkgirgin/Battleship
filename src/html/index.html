@@ -7,18 +7,93 @@
   </head>
   <body>
     <div class="main_container">
-      <div class="header_container">
-        <header>BATTLESHIP GAME</header>
+      <header class="header_container">
+        <div class="right_side_header_container">
+          <!-- <img src="../assets/images/ra2_logos_together.png" alt="ra2_logos" /> -->
+          <div class="title_container">BERK'S BATTLESHIP</div>
+        </div>
+
+        <div class="left_side_buttons_container">
+          <button class="new_game_button button">New Game</button>
+          <button class="mute_music_button background_music_button button">
+            <img
+              src="../assets/images/audio_off.png"
+              alt="sound_icon"
+              class="icon icon_off"
+            />
+            <img
+              src="../assets/images/audio_on.png"
+              alt="sound_icon"
+              class="icon icon_on"
+            />
+          </button>
+        </div>
+      </header>
+
+      <div class="start_buttons_container">
+        <button class="start_game_button button">Start Game</button>
+        <button class="reset_board_button button">Reset Board</button>
       </div>
-      <div class="status_container">
-        <div class="status_message">
-          The enemy fires a shot into your waters
+
+      <div class="gameboards_main_container">
+        <div class="human_gameboard_main_container">
+          <div class="human_title">Human Player</div>
+          <div class="human_gameboard_container"></div>
+        </div>
+        <div class="computer_gameboard_main_container">
+          <div class="computer_title">AI Player</div>
+          <div class="computer_gameboard_container"></div>
         </div>
       </div>
-      <div class="gameboards_container">
-        <div class="human_gameboard_container"></div>
-        <div class="computer_gameboard_container"></div>
-      </div>
     </div>
+
+    <!-- video and audio assets -->
+    <video
+      class="background_video"
+      autoplay
+      muted
+      src="../assets/images/ra2_intro_final_edit.mp4"
+    ></video>
+    <audio
+      src="../assets/music/songs/hellmarch2.mp3"
+      class="background_music"
+    ></audio>
+    <audio
+      src="../assets/music/kirov_reporting_audio.mp3"
+      class="kirov_reporting_audio"
+    ></audio>
+    <audio
+      src="../assets/music/prism_attack_sound.wav"
+      class="prism_audio"
+    ></audio>
+    <audio
+      src="../assets/music/tesla_attack_sound.wav"
+      class="tesla_audio"
+    ></audio>
+    <audio
+      src="../assets/music/attack_successful_audio.mpeg"
+      class="attack_successful_audio"
+    ></audio>
+    <audio
+      src="../assets/music/attack_missed_audio.mpeg"
+      class="attack_missed_audio"
+    ></audio>
+    <!-- ********************** -->
+
+    <!-- victory screen -->
+    <div class="victory_screen_container">
+      <img
+        src="../assets/images/victory_photo_human.jpg.jpeg"
+        alt="victory_photo_human"
+        class="victory_photo_human"
+      />
+      <img
+        src="../assets/images/victory_photo_computer.jpg.jpeg"
+        alt="victory_photo_computer"
+        class="victory_photo_computer"
+      />
+    </div>
+    <div class="overlay"></div>
+    <!-- ************** -->
   </body>
 </html>

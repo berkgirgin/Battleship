@@ -7,8 +7,13 @@ import { getAIMove, getRandomNonHitTile } from "./AI.js";
 
 import "../styles/index.css";
 
-export { game };
+export { game, generateMainGame };
 
-const game = new GameController();
+let game;
 
-game.initialiseGame();
+function generateMainGame() {
+  game = new GameController();
+  game.initialiseGame();
+}
+
+generateMainGame();

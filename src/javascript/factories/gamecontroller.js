@@ -5,6 +5,7 @@ import { DOM_Generator } from "../dom.js";
 import { getAIMove } from "../AI.js";
 
 export { GameController };
+export { DOM };
 
 const DOM = new DOM_Generator();
 
@@ -43,15 +44,30 @@ class GameController {
 
     DOM.initialiseGame_DOM();
     DOM.updateGameboard();
+    DOM.removeActivePlayerTagToAI(); // to be added when game starts
+  }
+
+  resetCurrentGameboards() {
+    this.humanPlayer.playerboard.fullBoard =
+      this.humanPlayer.playerboard.initialiseBoard();
+    this.computerPlayer.playerboard.fullBoard =
+      this.computerPlayer.playerboard.initialiseBoard();
+
+    this.generateRandomBoard(this.humanPlayer);
+    this.generateRandomBoard(this.computerPlayer);
+
+    DOM.initialiseGame_DOM();
+    DOM.updateGameboard();
+    DOM.removeActivePlayerTagToAI(); // to be added when game starts
   }
 
   generateRandomBoard(player) {
-    const selectedBoard = player.enemyPlayer.playerboard;
-    const ship1 = new Ship(5);
-    const ship2 = new Ship(4);
-    const ship3 = new Ship(3);
-    const ship4 = new Ship(3);
-    const ship5 = new Ship(2);
+    // const selectedBoard = player.enemyPlayer.playerboard;
+    const ship1 = new Ship(5, "carrier");
+    const ship2 = new Ship(4, "battleship");
+    const ship3 = new Ship(3, "cruiser");
+    const ship4 = new Ship(3, "submarine");
+    const ship5 = new Ship(2, "destroyer");
 
     const shipsToAdd = [ship1, ship2, ship3, ship4, ship5];
 
@@ -112,31 +128,21 @@ class GameController {
         : this.humanPlayer;
   }
 
-  playRound(X_coor, Y_coor, player) {
+  async playRound(X_coor, Y_coor, player) {
+    DOM.removeActivePlayerTagToAI();
+
     if (player === this.computerPlayer) {
-      console.log([X_coor, Y_coor]);
+      console.log("AI hits: " + "[" + X_coor + ", " + Y_coor + "]");
     }
-    // console.log(`isHumanTurn: ${player === this.humanPlayer}`);
-    // console.log(`played tile: [${X_coor}, ${Y_coor}]`);
 
-    // if ((player = this.computerPlayer)) {
-    //   this.playComputerRound(X_coor, Y_coor);
-    //   return;
-    // }
-    // player should be the active player.
-    // We click on inactive player board on DOM to playRound
+    await DOM.playAttackAudio(player);
+    // await sleep(1);
 
-    // ?? where to check if attack is allowed
-    // if (!player.isAttackAllowed(X_coor, Y_coor)) {
-    //   return;
-    // }
-    //
     player.attackEnemyPlayer(X_coor, Y_coor);
-
-    // here comes some DOM stuff
 
     const targetBoard = player.enemyPlayer.playerboard;
     const targetTile = player.enemyPlayer.playerboard.fullBoard[X_coor][Y_coor];
+    const isHitSuccessful = targetTile.hasTileShip();
 
     // check if this ship has been sunk now
     if (targetTile.hasTileShip()) {
@@ -158,6 +164,11 @@ class GameController {
       if (this.activePlayer === this.computerPlayer) {
         break outerLoop; // needs to jump in to below computerTurn logic
       } else {
+        DOM.updateGameboard();
+        DOM.removeActivePlayerTagToAI();
+        await DOM.playAttackHitAudio(isHitSuccessful);
+        DOM.addActivePlayerTagtoAI();
+
         return; // no change with active player
       }
     } else {
@@ -166,11 +177,15 @@ class GameController {
 
     // this.switchActivePlayer();
 
+    DOM.updateGameboard();
+    DOM.removeActivePlayerTagToAI();
+    await DOM.playAttackHitAudio(isHitSuccessful);
+    DOM.addActivePlayerTagtoAI();
+
     if (this.activePlayer === this.computerPlayer) {
       let [nextRound_X_coor, nextRound_Y_coor] = getAIMove(
         this.humanPlayer.playerboard
       );
-
       this.playRound(nextRound_X_coor, nextRound_Y_coor, this.computerPlayer);
     }
   }
@@ -179,6 +194,8 @@ class GameController {
 
   endGame(winningPlayer) {
     // for now, we make losing board red, winning green
+
+    DOM.updateGameboard();
 
     if (winningPlayer === this.humanPlayer) {
       DOM.endGame_DOM("human");
