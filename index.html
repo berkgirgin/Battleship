@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battleship Game</title>
+  </head>
+  <body>
+    <div class="main_container">
+      <header class="header_container">
+        <div class="right_side_header_container">
+          <!-- <img src="../assets/images/ra2_logos_together.png" alt="ra2_logos" /> -->
+          <div class="title_container">BERK'S BATTLESHIP</div>
+        </div>
+
+        <div class="left_side_buttons_container">
+          <button class="new_game_button button">New Game</button>
+          <button class="mute_music_button background_music_button button">
+            <img
+              src="0f105e6aba0b366781e2.png"
+              alt="sound_icon"
+              class="icon icon_off"
+            />
+            <img
+              src="aff1666c1baffd241b0a.png"
+              alt="sound_icon"
+              class="icon icon_on"
+            />
+          </button>
+        </div>
+      </header>
+
+      <div class="start_buttons_container">
+        <button class="start_game_button button">Start Game</button>
+        <button class="reset_board_button button">Reset Board</button>
+      </div>
+
+      <div class="gameboards_main_container">
+        <div class="human_gameboard_main_container">
+          <div class="player_title human_title">ALLIED (Human Player)</div>
+          <div class="human_gameboard_container"></div>
+        </div>
+        <div class="computer_gameboard_main_container">
+          <div class="player_title computer_title">SOVIETS (AI Player)</div>
+          <div class="computer_gameboard_container"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- video and audio assets -->
+    <video
+      class="background_video"
+      autoplay
+      muted
+      src="f16e92e13dc47853ed20.mp4"
+    ></video>
+    <audio
+      src="e80496c30546183111e0.mp3"
+      class="background_music"
+    ></audio>
+    <audio
+      src="f2eb4baf6e895131eb5c.mp3"
+      class="kirov_reporting_audio"
+    ></audio>
+    <audio
+      src="5d2c03a8026d0f7c03ae.wav"
+      class="prism_audio"
+    ></audio>
+    <audio
+      src="a5903c42a0703652dc6d.wav"
+      class="tesla_audio"
+    ></audio>
+    <audio
+      src="8581d21acb55f1f97f47.mpeg"
+      class="attack_successful_audio"
+    ></audio>
+    <audio
+      src="ae15fbec4f3835dbd644.mpeg"
+      class="attack_missed_audio"
+    ></audio>
+    <!-- ********************** -->
+
+    <!-- victory screen -->
+    <div class="victory_screen_container">
+      <img
+        src="2f942dd47fcc9a76e624.jpeg"
+        alt="victory_photo_human"
+        class="victory_photo_human"
+      />
+      <img
+        src="ffff12e7a56a2dcd6434.jpeg"
+        alt="victory_photo_computer"
+        class="victory_photo_computer"
+      />
+    </div>
+    <div class="overlay"></div>
+    <!-- ************** -->
+  <script defer src="runtime.bundle.js"></script><script defer src="index.bundle.js"></script></body>
+</html>
