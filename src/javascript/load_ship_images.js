@@ -1,7 +1,7 @@
 import { getShipsCoordinates } from "./factories/gameboard.js";
 // import { DOM } from "./factories/gamecontroller.js";
 
-export { loadShipImages };
+export { loadShipImages, addAudioConfig };
 //
 
 function loadShipImages(gameboard, gameboardContainer) {
@@ -60,4 +60,34 @@ function loadShipImages(gameboard, gameboardContainer) {
   // headTiles.forEach((headTile) => {
   //   headTile.classList.add("head_tile");
   // });
+}
+
+function addAudioConfig() {
+  const audioBackground = document.querySelector("audio.background_music");
+  const audioIconOn = document.querySelector(
+    "button.background_music_button .icon_on"
+  );
+  const audioIconOff = document.querySelector(
+    "button.background_music_button .icon_off"
+  );
+  audioIconOn.style.display = "none";
+  const audioButton = document.querySelector("button.background_music_button");
+
+  function togglePlay() {
+    if (audioBackground.paused) {
+      audioIconOn.style.display = "block";
+      audioIconOff.style.display = "none";
+      console.log("playing background music");
+      audioBackground.play();
+    } else {
+      audioIconOn.style.display = "none";
+      audioIconOff.style.display = "block";
+      console.log("pausing background music");
+      audioBackground.pause();
+    }
+  }
+
+  audioButton.addEventListener("click", () => {
+    togglePlay();
+  });
 }

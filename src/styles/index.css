@@ -6,6 +6,7 @@
   --button-hover-grey: #3a3a3a;
   --neutral-black: #121212;
   --dark-grey: #232323;
+  --font_color_white: #e8e6e3;
 
   --button-box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
     rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
@@ -17,8 +18,18 @@
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
+  --header-background: linear-gradient(
+    90deg,
+    rgba(139, 147, 154, 1) 0%,
+    rgba(91, 100, 103, 1) 100%
+  );
+
+  --gameboard-box-shadow: 0 2px 3px #292929, 0 0 77px black inset,
+    5px -5px 44px #292929 inset;
+
   --float-size: 0.15rem;
   --border_radius: 10px;
+  --tile-border: 0.5px silver solid;
 
   font-size: 16px;
 }
@@ -72,7 +83,7 @@ body {
   padding: 0;
   position: relative;
 
-  color: var(--ra2-menu-red);
+  color: var(--ra2-menu-yellow);
 }
 
 .background_video {
@@ -104,16 +115,23 @@ body {
   align-items: center;
   padding: 0.5rem;
   background-color: rgba(0, 0, 0, 0.8);
+  /* background-image: url(../assets/images/dreadnought.jpg);
+  background-position: center;
+  background-size: 15%; */
+  background: rgb(139, 147, 154);
+  background: var(--header-background);
 
-  /* background: rgb(139, 147, 154);
-  background: linear-gradient(
-    90deg,
-    rgba(139, 147, 154, 1) 0%,
-    rgba(91, 100, 103, 1) 100%
-  ); */
+  box-shadow: var(--gameboard-box-shadow);
 }
 
-.right_side_header_container {
+/* .left_side_buttons_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.right_side_header_container,
+.left_side_buttons_container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -126,9 +144,9 @@ body {
   font-weight: bold;
 }
 
-.right_side_header_container img {
-  height: 6rem;
-}
+/* .right_side_header_container img {
+  height: 2rem;
+} */
 
 .button img {
   height: 2rem;
@@ -145,6 +163,7 @@ body {
   /* font-size: 16px; */
   font-size: 1rem;
   color: var(--ra2-menu-yellow);
+  font-weight: bold;
   padding: 0.8em 1.8em;
   cursor: pointer;
   user-select: none;
@@ -217,7 +236,15 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  /* gap: 0.5rem; */
+}
+
+.player_title {
+  width: 30rem;
+  border: 0.4rem solid var(--header-dark-grey);
+  background-color: var(--dark-grey);
+  /* padding-left: 1rem; */
+  text-align: center;
 }
 
 /* ************************* */
@@ -234,8 +261,7 @@ body {
   /* border: 24px groove #727278; */
   /* box-sizing: border-box; */
   border: 0.4rem solid var(--header-dark-grey);
-  box-shadow: 0 2px 3px #292929, 0 0 77px black inset,
-    5px -5px 44px #292929 inset;
+  box-shadow: var(--gameboard-box-shadow);
 
   width: 30rem;
   height: 30rem;
@@ -280,6 +306,7 @@ body {
 .human_gameboard_container,
 .computer_gameboard_container {
   pointer-events: none;
+  cursor: not-allowed;
 }
 .computer_gameboard_container.active_players_enemy {
   pointer-events: all;
@@ -287,10 +314,22 @@ body {
 
 /* Gameboard Tiles */
 
+.computer_gameboard_container .tile.has_ship:not(.sunk_ship) {
+  background: none;
+  border: var(--tile-border);
+  animation: none;
+  border-radius: 0 !important;
+}
+/* .computer_gameboard_container .tile.has_ship.sunk_ship {
+  background: inherit;
+} */
+
 .tile {
   aspect-ratio: 1 / 1;
-  border: 0.5px silver solid;
+  border: var(--tile-border);
   transition-duration: 0.4s;
+
+  cursor: crosshair;
 }
 
 .tile.hit {
@@ -323,10 +362,11 @@ body {
   animation: float-x-axis 4s infinite ease-in-out;
 }
 
-.tile.has_ship.head_tile {
+.tile.has_ship.head_tile.sunk_ship:not(:hover) {
   background-color: var(--header-dark-grey);
   background-image: none;
 }
+
 .tile.has_ship.head_tile.x_axis {
   border-radius: 40px 999em 999em 40px;
 }
@@ -334,11 +374,8 @@ body {
   border-radius: 999em 999em 40px 40px;
 }
 
-.tile.has_sunk_ship {
-}
-
-.tile:hover {
-  background-color: bisque;
+.tile:hover:not(.hit) {
+  background-color: bisque !important;
 }
 /* *************** */
 

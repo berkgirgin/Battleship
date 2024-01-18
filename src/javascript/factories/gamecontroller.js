@@ -150,6 +150,8 @@ class GameController {
         // here comes DOM stuff
         // allTilesOfShip = ..
         // forEach(allTilesOfShip)
+        if (player === this.humanPlayer) {
+        }
         targetBoard.getSunkShipTiles(targetTile.shipInfo);
       }
     }

@@ -4,6 +4,7 @@ import { GameboardTile, Gameboard } from "./factories/gameboard.js";
 import { Player } from "./factories/player.js";
 import { GameController } from "./factories/gamecontroller.js";
 import { getAIMove, getRandomNonHitTile } from "./AI.js";
+import { addAudioConfig } from "../javascript/load_ship_images.js";
 
 import "../styles/index.css";
 
@@ -17,3 +18,4 @@ function generateMainGame() {
 }
 
 generateMainGame();
+addAudioConfig();

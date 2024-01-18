@@ -47,7 +47,7 @@ class DOM_Generator {
       this.newGameButtonEvent();
     });
 
-    this.addAudioConfig();
+    // this.addAudioConfig();
     this.addVideoBackgroundLoopDelay();
   }
 
@@ -121,8 +121,7 @@ class DOM_Generator {
   }
 
   updateGameboard() {
-    // TO DO: disable the hit tiles
-    // TO DO: you should only be able to attack computer board on human turn!
+    //
     const humanBoardDiv = document.querySelector(".human_gameboard_container");
     const computerBoardDiv = document.querySelector(
       ".computer_gameboard_container"
@@ -167,6 +166,10 @@ class DOM_Generator {
         if (currentComputerTile.hasTileShip()) {
           let shipType = currentComputerTile.shipInfo.shipType;
           currentComputerTile_DOM.setAttribute("data-ship_type", `${shipType}`);
+          //
+          if (currentComputerTile.shipInfo.isSunk()) {
+            currentComputerTile_DOM.classList.add("sunk_ship");
+          }
         }
 
         //
@@ -391,36 +394,6 @@ class DOM_Generator {
     const body = document.querySelector("body");
     body.classList.remove("disabled");
     console.log("body enabled");
-  }
-
-  addAudioConfig() {
-    const audioBackground = document.querySelector("audio.background_music");
-    const audioIconOn = document.querySelector(
-      "button.background_music_button .icon_on"
-    );
-    const audioIconOff = document.querySelector(
-      "button.background_music_button .icon_off"
-    );
-    audioIconOn.style.display = "none";
-    const audioButton = document.querySelector(
-      "button.background_music_button"
-    );
-
-    function togglePlay() {
-      if (audioBackground.paused) {
-        audioIconOn.style.display = "block";
-        audioIconOff.style.display = "none";
-        audioBackground.play();
-      } else {
-        audioIconOn.style.display = "none";
-        audioIconOff.style.display = "block";
-        audioBackground.pause();
-      }
-    }
-
-    audioButton.addEventListener("click", () => {
-      togglePlay();
-    });
   }
 
   //
